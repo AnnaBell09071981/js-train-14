@@ -326,22 +326,18 @@ console.log(getDayOfWeek(new Date("2023-01-01")));
  * }
  */
 function getDaysInMonth(date) {
-  let inputDate = new Date(date);
-  let daysInMonth;
-  let year;
-  let listopade = new Date();
-  listopade = inputDate.getDate();
-  if(typeof date.getTime === "function") {
-    daysInMonth = inputDate.getDate(date);
-    year = inputDate.getFullYear(date);
-    let date1 = new Date(date);
-    return {
-      inputDate,
-      daysInMonth,
-      year,
-    }
-  } else {
+  if(!(typeof date.getTime === "function")) {
     return "Помилка: вхідне значення має бути об'єктом Date";
+  }
+  let inputDate = date.toISOString();
+  let month = date.getMonth();
+  let year = date.getFullYear();
+  let nextMonth = new Date(year, month + 1, 1);
+  nextMonth.setDate(nextMonth.getDate() - 1);
+  let daysInMonth = nextMonth.getDate();
+  return {
+    inputDate,
+    daysInMonth,
   }
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
@@ -372,18 +368,19 @@ console.log(getDaysInMonth(new Date("2023-02-01")));
  * }
  */
 function getFormattedTime(date) {
-  let inputDate = new Date(date);
-  let hours;
-  let minutes;
-  let seconds;
-  if(typeof date.getTime === "function") {
-    hours = inputDate.getHours();
-    minutes = inputDate.getMinutes();
-    seconds = inputDate.getSeconds();
-    return inputDate, `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  } else {
+  if(!(typeof date.getTime === "function")) {
     return "Помилка: вхідне значення має бути об'єктом Date";
   }
+  let inputDate = date.toISOString();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let seconds = date.getSeconds();
+  let formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  return {
+    inputDate,
+    formattedTime,
+  }
+  
   // Перевірка, чи є вхідне значення об'єктом Date,це можно зробити перевіривши чи є date.getTime по типу функція .
   // Якщо date не є об'єктом Date, повертаємо рядок
   // "Помилка: вхідне значення має бути об'єктом Date"
