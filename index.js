@@ -11,7 +11,14 @@
  */
 function getDateDetails(date) {
   if(typeof date.getTime === "function") {
-    return date;
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    return {
+      year,
+      month,
+      day,
+    };
   } else {
     return "Помилка: вхідне значення має бути об'єктом Date";
   }
@@ -37,7 +44,8 @@ console.log(getDateDetails(new Date("2023-12-25T00:00:00Z")));
  */
 function setDateDetails(date, isoString) {
   if(typeof date.getTime === "function") {
-    if(typeof isoString === "number") {
+    if(typeof isoString === "string") {
+      date = new Date(isoString);
       return date;
     } else {
       return "Помилка: недійсний ISO рядок";
@@ -213,7 +221,7 @@ console.log(isLeapYear(2020));
  * }
  */
 function addDays(date, days) {
-  let inputDate = new Date;
+  let inputDate = new Date(date);
   let addedDays;
   let resultDate = new Date;
   if(typeof date.getTime === "function") {
@@ -276,7 +284,7 @@ let daysOfWeek = [
 ];
 
 function getDayOfWeek(date) {
-  let inputDate = new Date;
+  let inputDate = new Date(date);
   let i;
   let weekday;
   if(typeof date.getTime === "function") {
@@ -318,16 +326,16 @@ console.log(getDayOfWeek(new Date("2023-01-01")));
  * }
  */
 function getDaysInMonth(date) {
-  let inputDate = new Date('2023-02-01T00:00:00.000Z');
+  let inputDate = new Date(date);
   let daysInMonth;
   let year;
-  let listopade = new Date('November 1, 2023');
+  let listopade = new Date();
   listopade = inputDate.getDate();
   if(typeof date.getTime === "function") {
-    daysInMonth = inputDate.getMonth();
-    year = inputDate.getFullYear();
+    daysInMonth = inputDate.getDate(date);
+    year = inputDate.getFullYear(date);
+    let date1 = new Date(date);
     return {
-      listopade,
       inputDate,
       daysInMonth,
       year,
@@ -364,7 +372,7 @@ console.log(getDaysInMonth(new Date("2023-02-01")));
  * }
  */
 function getFormattedTime(date) {
-  let inputDate = new Date('2023-12-25T09:30:00.000Z');
+  let inputDate = new Date(date);
   let hours;
   let minutes;
   let seconds;
@@ -372,7 +380,7 @@ function getFormattedTime(date) {
     hours = inputDate.getHours();
     minutes = inputDate.getMinutes();
     seconds = inputDate.getSeconds();
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    return inputDate, `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   } else {
     return "Помилка: вхідне значення має бути об'єктом Date";
   }
